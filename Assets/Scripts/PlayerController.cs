@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] PlayerInput playerInput;
     [SerializeField]GameObject proyectilPrefab;
+    [SerializeField] AudioClip ShootClip;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour
         {
             GameObject nuevoProyectil = Instantiate(proyectilPrefab, transform.position, transform.rotation);
             nuevoProyectil.GetComponent<Rigidbody2D>().velocity = transform.up * nuevoProyectil.GetComponent<bullet>().velocidad;
+            audioManager.Instance.playFX(ShootClip);
         }
     }
 }

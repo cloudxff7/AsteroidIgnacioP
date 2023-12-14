@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7961460934407128482}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -203,7 +203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  rotationSpeed: 180
+  rotationSpeed: 6
   rb: {fileID: 0}
   playerInput: {fileID: 0}
-  proyectilPrefab: {fileID: 0}
+  proyectilPrefab: {fileID: 5257775805115302421, guid: 4c99abc88eca38b4f84892fa907a0161, type: 3}
+  ShootClip: {fileID: 8300000, guid: 195ce351ef9815f47bc1dc8d92169567, type: 3}

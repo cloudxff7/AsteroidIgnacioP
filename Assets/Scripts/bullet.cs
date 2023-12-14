@@ -11,7 +11,6 @@ public class bullet : MonoBehaviour
         transform.Translate(Vector2.up * velocidad * Time.deltaTime);
 
     }
-
     private void OnBecameInvisible()
     {
         Destroy(gameObject);

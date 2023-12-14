@@ -8,8 +8,8 @@ public class asteroid : MonoBehaviour
     public float velocidadMaxima = 5f;
     public float tamañoMinimo = 1f;
     public float tamañoMaximo = 3f;
-    private float vida;
-    private int puntaje;
+    [SerializeField]private float vida;
+    [SerializeField]private int puntaje;
     void Start()
     {
         float tamaño = Random.Range(tamañoMinimo, tamañoMaximo);
