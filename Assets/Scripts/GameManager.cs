@@ -10,9 +10,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] protected GameObject asteroidePrefab;
     [SerializeField] protected GameObject MainMenu;
     [SerializeField] protected GameObject Player;
-    [SerializeField] protected TextMeshProUGUI scoreTxt;
-    [SerializeField] protected TextMeshProUGUI highScoreTxt;
-    [SerializeField] protected TextMeshProUGUI livesTxt;
 
     [SerializeField] protected AudioClip ScoreFx;
 
@@ -25,6 +22,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int score;
     [SerializeField] private int highScore;
 
+    [SerializeField] UnityEvent<int> OnUpdateHeal;
+    public UnityEvent<int> OnUpdateScore;
+    [SerializeField] UnityEvent<int> OnUpdateHighScore;
     public static GameManager Instance { get; private set; }
     public int _CantidadAsteroides { get => cantidadAsteroides; set => cantidadAsteroides = value; }
     public float _TiempoEspera { get => tiempoEspera; set => tiempoEspera = value; }
@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 30;
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
     public void gameOver(GameObject player)
     {
         _Vidas--;
+        OnUpdateHeal.Invoke(_Vidas);
         if (_Vidas <= 0)
         {
             comprobarHighScore();
@@ -125,8 +128,12 @@ public class GameManager : MonoBehaviour
     IEnumerator initGame()
     {
         _Vidas = 3;
+        _Score = 0;
         _CantidadAsteroides = 5;
         _TiempoEspera = 2f;
+
+        OnUpdateHeal.Invoke(_Vidas);
+        OnUpdateScore.Invoke(_Score);
         StopCoroutine(GenerarAsteroidesInfinitos());
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
@@ -148,16 +155,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void Update()
-    {
-       scoreTxt.text = _Score.ToString();
-       highScoreTxt.text = _HighScore.ToString();
-       livesTxt.text = "lives: " + _Vidas.ToString();
-    }
-
     public void sumarScore(int scorer) 
     {
         _Score += scorer;
+        OnUpdateScore.Invoke(_Score);
     }
 
     public void comprobarHighScore()
@@ -165,13 +166,14 @@ public class GameManager : MonoBehaviour
         if (_HighScore < _Score)
         {
             _HighScore = _Score;
+            OnUpdateHighScore.Invoke(_HighScore);
             audioManager.Instance.playFX(ScoreFx);
         }
     }
 
     IEnumerator aumentarDificultad() 
     {
-        yield return new WaitForSeconds(_TiempoEsperaDificultad);
+        yield return new WaitForSeconds(_TiempoEsperaDificultad*Time.deltaTime);
         _CantidadAsteroides++;
         if (_TiempoEspera >= .1f)
         {

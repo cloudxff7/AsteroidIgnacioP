@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 519420034}
   - component: {fileID: 519420033}
   - component: {fileID: 519420035}
+  - component: {fileID: 519420036}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: MainCamera
@@ -559,17 +560,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidePrefab: {fileID: 7482867170389391746, guid: f5579e96537df0b43955ab4920d4cd59, type: 3}
   MainMenu: {fileID: 359092178733257679}
+  Player: {fileID: 7944050341231488740, guid: 95829b0e9131afc4bacc7ffcac2a6149, type: 3}
+  ScoreFx: {fileID: 8300000, guid: d44d178c077c4484baf237fc396b315f, type: 3}
   cantidadAsteroides: 3
   tiempoEspera: 5
-  Player: {fileID: 7944050341231488740, guid: 95829b0e9131afc4bacc7ffcac2a6149, type: 3}
+  tiempoEsperaDificultad: 15
   pause: 0
   vidas: 0
   score: 0
-  HighScore: 0
-  scoreTxt: {fileID: 2295947323413650367}
-  highScoreTxt: {fileID: 1800255664}
-  livesTxt: {fileID: 7600331063444774469}
-  ScoreFx: {fileID: 8300000, guid: d44d178c077c4484baf237fc396b315f, type: 3}
+  highScore: 0
+  OnUpdateHeal:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 519420036}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: UpdateLives
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnUpdateScore:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 519420036}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: UpdateScore
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnUpdateHighScore:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 519420036}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: UpdateHighScore
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,6 +628,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MusicSource: {fileID: 519420033}
   FxSource: {fileID: 137099058}
+--- !u!114 &519420036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a384852d356b7714f9cda29fdc1ece3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreTxt: {fileID: 2295947323413650367}
+  highScoreTxt: {fileID: 1800255664}
+  livesTxt: {fileID: 7600331063444774469}
 --- !u!1 &1199485824
 GameObject:
   m_ObjectHideFlags: 0
