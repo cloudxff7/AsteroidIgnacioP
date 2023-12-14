@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject MainMenu;
     public int cantidadAsteroides = 5;
     public float tiempoEspera = 2f;
+    public float tiempoEsperaDificultad = 5f;
     [SerializeField] GameObject Player;
-    [SerializeField] bool playing= false;
+    [SerializeField] bool pause= false;
     [SerializeField] int vidas;
     [SerializeField] int score;
     [SerializeField] int HighScore;
@@ -46,9 +47,10 @@ public class GameManager : MonoBehaviour
 
     public void gamePause()
     {
-        playing=!playing;
-        if(playing) StartCoroutine(GenerarAsteroidesInfinitos());
-        else StopCoroutine(GenerarAsteroidesInfinitos());
+        pause = !pause;
+
+        if (pause) Time.timeScale = 0;
+        else Time.timeScale = 1;
     }
 
     public void gameOver(GameObject player)
@@ -58,7 +60,6 @@ public class GameManager : MonoBehaviour
         {
             comprobarHighScore();
             Destroy(player);
-            playing = false;
             StopCoroutine(GenerarAsteroidesInfinitos());
             MainMenu.SetActive(true);
         }
@@ -113,10 +114,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator initGame()
     {
-        playing = true;
         vidas = 3;
-        score= 0;
-
+        cantidadAsteroides = 5;
+        tiempoEspera = 2f;
         StopCoroutine(GenerarAsteroidesInfinitos());
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
         Instantiate(Player, new Vector3(0, 0, 1), Quaternion.identity);
         yield return new WaitForSeconds(3f);
         StartCoroutine(GenerarAsteroidesInfinitos());
+        StartCoroutine(aumentarDificultad());
     }
 
 
@@ -155,6 +156,16 @@ public class GameManager : MonoBehaviour
         {
             HighScore = score;
             audioManager.Instance.playFX(ScoreFx);
+        }
+    }
+
+    IEnumerator aumentarDificultad() 
+    {
+        yield return new WaitForSeconds(tiempoEsperaDificultad);
+        cantidadAsteroides++;
+        if (tiempoEspera >= .1f)
+        {
+            tiempoEspera -= .1f;
         }
     }
 }
