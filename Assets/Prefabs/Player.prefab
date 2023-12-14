@@ -208,3 +208,4 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   proyectilPrefab: {fileID: 5257775805115302421, guid: 4c99abc88eca38b4f84892fa907a0161, type: 3}
   ShootClip: {fileID: 8300000, guid: 195ce351ef9815f47bc1dc8d92169567, type: 3}
+  lostClip: {fileID: 8300000, guid: 9e8fee547e7bbe0428d4f08207c3d42f, type: 3}

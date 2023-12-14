@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]GameObject asteroidePrefab;
+    [SerializeField] GameObject MainMenu;
     public int cantidadAsteroides = 5;
     public float tiempoEspera = 2f;
     [SerializeField] GameObject Player;
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]TextMeshProUGUI scoreTxt;
     [SerializeField] TextMeshProUGUI highScoreTxt;
     [SerializeField] TextMeshProUGUI livesTxt;
+
+    [SerializeField] AudioClip ScoreFx;
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -48,10 +51,18 @@ public class GameManager : MonoBehaviour
         else StopCoroutine(GenerarAsteroidesInfinitos());
     }
 
-    public void gameOver()
+    public void gameOver(GameObject player)
     {
-        playing=false;
-        StopCoroutine(GenerarAsteroidesInfinitos());
+        vidas--;
+        if (vidas <= 0)
+        {
+            comprobarHighScore();
+            Destroy(player);
+            playing = false;
+            StopCoroutine(GenerarAsteroidesInfinitos());
+            MainMenu.SetActive(true);
+        }
+       
     }
     
     public void CloseGame() 
@@ -103,6 +114,9 @@ public class GameManager : MonoBehaviour
     IEnumerator initGame()
     {
         playing = true;
+        vidas = 3;
+        score= 0;
+
         StopCoroutine(GenerarAsteroidesInfinitos());
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
@@ -120,6 +134,28 @@ public class GameManager : MonoBehaviour
         Instantiate(Player, new Vector3(0, 0, 1), Quaternion.identity);
         yield return new WaitForSeconds(3f);
         StartCoroutine(GenerarAsteroidesInfinitos());
+    }
+
+
+    void Update()
+    {
+       scoreTxt.text = score.ToString();
+       highScoreTxt.text = HighScore.ToString();
+       livesTxt.text = "lives: " + vidas.ToString();
+    }
+
+    public void sumarScore(int scorer) 
+    {
+        score += scorer;
+    }
+
+    public void comprobarHighScore()
+    {
+        if (HighScore < score)
+        {
+            HighScore = score;
+            audioManager.Instance.playFX(ScoreFx);
+        }
     }
 }
 

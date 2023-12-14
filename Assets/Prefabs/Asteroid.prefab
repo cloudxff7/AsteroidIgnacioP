@@ -101,8 +101,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidadMinima: 2
   velocidadMaxima: 5
-  "tama\xF1oMinimo": 1
-  "tama\xF1oMaximo": 3
+  "tama\xF1oMinimo": 3
+  "tama\xF1oMaximo": 1
+  vida: 0
+  puntaje: 0
+  explosionClip: {fileID: 8300000, guid: 48819bb955666524cb8e5bd6b7f63dd4, type: 3}
 --- !u!50 &8644008068515071912
 Rigidbody2D:
   serializedVersion: 4

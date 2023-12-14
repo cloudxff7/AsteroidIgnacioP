@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField]GameObject proyectilPrefab;
     [SerializeField] AudioClip ShootClip;
+    [SerializeField] AudioClip lostClip;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -68,6 +69,16 @@ public class PlayerController : MonoBehaviour
             GameObject nuevoProyectil = Instantiate(proyectilPrefab, transform.position, transform.rotation);
             nuevoProyectil.GetComponent<Rigidbody2D>().velocity = transform.up * nuevoProyectil.GetComponent<bullet>().velocidad;
             audioManager.Instance.playFX(ShootClip);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            GameManager.Instance.gameOver(gameObject);
+            transform.position = new Vector3(0, 0, 1);
+            audioManager.Instance.playFX(lostClip);
         }
     }
 }

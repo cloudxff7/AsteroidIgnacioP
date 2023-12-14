@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidePrefab: {fileID: 7482867170389391746, guid: f5579e96537df0b43955ab4920d4cd59, type: 3}
+  MainMenu: {fileID: 359092178733257679}
   cantidadAsteroides: 3
   tiempoEspera: 5
   Player: {fileID: 7944050341231488740, guid: 95829b0e9131afc4bacc7ffcac2a6149, type: 3}
@@ -565,6 +566,10 @@ MonoBehaviour:
   vidas: 0
   score: 0
   HighScore: 0
+  scoreTxt: {fileID: 2295947323413650367}
+  highScoreTxt: {fileID: 1800255664}
+  livesTxt: {fileID: 7600331063444774469}
+  ScoreFx: {fileID: 8300000, guid: d44d178c077c4484baf237fc396b315f, type: 3}
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -779,7 +784,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000000
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4f29946cf47cde140bcc2ecca96b2e64, type: 2}
   m_sharedMaterial: {fileID: -2983347081985223663, guid: 4f29946cf47cde140bcc2ecca96b2e64, type: 2}
@@ -1671,7 +1676,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00000
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4f29946cf47cde140bcc2ecca96b2e64, type: 2}
   m_sharedMaterial: {fileID: -2983347081985223663, guid: 4f29946cf47cde140bcc2ecca96b2e64, type: 2}

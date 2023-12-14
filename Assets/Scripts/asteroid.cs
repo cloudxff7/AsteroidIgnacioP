@@ -10,6 +10,8 @@ public class asteroid : MonoBehaviour
     public float tamañoMaximo = 3f;
     [SerializeField]private float vida;
     [SerializeField]private int puntaje;
+
+    [SerializeField] AudioClip explosionClip;
     void Start()
     {
         float tamaño = Random.Range(tamañoMinimo, tamañoMaximo);
@@ -25,8 +27,18 @@ public class asteroid : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-    
+        if (collision.tag == "Bullet")
+        {
+            Destroy(collision.gameObject);
+            vida--;
+            if (vida < 0)
+            {
+                audioManager.Instance.playFX(explosionClip);
+                GameManager.Instance.sumarScore(puntaje);
+                Destroy(gameObject);
+            }
+        }
     }
 }
