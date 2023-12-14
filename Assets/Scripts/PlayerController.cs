@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPlaySound
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerInput playerInput;
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float rotationSpeed = 180f;
 
+    private AudioClip currentClip;
     public float _Speed { get => speed; set => speed = value; }
     public float _RotationSpeed { get => rotationSpeed; set => rotationSpeed = value; }
 
@@ -73,7 +74,8 @@ public class PlayerController : MonoBehaviour
         {
             GameObject nuevoProyectil = Instantiate(proyectilPrefab, transform.position, transform.rotation);
             nuevoProyectil.GetComponent<Rigidbody2D>().velocity = transform.up * nuevoProyectil.GetComponent<bullet>()._Velocidad;
-            audioManager.Instance.playFX(ShootClip);
+            currentClip = ShootClip;
+            PlayFx();
         }
     }
 
@@ -83,7 +85,14 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.gameOver(gameObject);
             transform.position = new Vector3(0, 0, 1);
-            audioManager.Instance.playFX(lostClip);
+            currentClip = lostClip;
+            PlayFx();
         }
     }
+
+    public void PlayFx()
+    {
+        audioManager.Instance.playFX(currentClip);
+    }
 }
+

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class audioManager : MonoBehaviour
 {
-    [SerializeField]AudioSource MusicSource;
-    [SerializeField]AudioSource FxSource;
+    [SerializeField] AudioSource MusicSource;
+    [SerializeField] AudioSource FxSource;
     public static audioManager Instance { get; private set; }
     private void Awake()
     {

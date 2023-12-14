@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class asteroid : Enemy
+public class asteroid : Enemy, IPlaySound
 {
     [SerializeField] AudioClip explosionClip;
     void Start()
@@ -28,10 +28,15 @@ public class asteroid : Enemy
             _Vida--;
             if (_Vida < 0)
             {
-                audioManager.Instance.playFX(explosionClip);
+                PlayFx();
                 GameManager.Instance.sumarScore(_Puntaje);
                 Destroy(gameObject);
             }
         }
+    }
+
+    public void PlayFx()
+    {
+        audioManager.Instance.playFX(explosionClip);
     }
 }

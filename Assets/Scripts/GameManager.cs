@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour , IPlaySound
 {
     [SerializeField] protected GameObject asteroidePrefab;
     [SerializeField] protected GameObject MainMenu;
@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
         {
             _HighScore = _Score;
             OnUpdateHighScore.Invoke(_HighScore);
-            audioManager.Instance.playFX(ScoreFx);
+            PlayFx();
         }
     }
 
@@ -179,6 +179,11 @@ public class GameManager : MonoBehaviour
         {
             _TiempoEspera -= .1f;
         }
+    }
+
+    public void PlayFx()
+    {
+        audioManager.Instance.playFX(ScoreFx);
     }
 }
 
