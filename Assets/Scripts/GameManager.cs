@@ -7,23 +7,33 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]GameObject asteroidePrefab;
-    [SerializeField] GameObject MainMenu;
-    public int cantidadAsteroides = 5;
-    public float tiempoEspera = 2f;
-    public float tiempoEsperaDificultad = 5f;
-    [SerializeField] GameObject Player;
-    [SerializeField] bool pause= false;
-    [SerializeField] int vidas;
-    [SerializeField] int score;
-    [SerializeField] int HighScore;
+    [SerializeField] protected GameObject asteroidePrefab;
+    [SerializeField] protected GameObject MainMenu;
+    [SerializeField] protected GameObject Player;
+    [SerializeField] protected TextMeshProUGUI scoreTxt;
+    [SerializeField] protected TextMeshProUGUI highScoreTxt;
+    [SerializeField] protected TextMeshProUGUI livesTxt;
 
-    [SerializeField]TextMeshProUGUI scoreTxt;
-    [SerializeField] TextMeshProUGUI highScoreTxt;
-    [SerializeField] TextMeshProUGUI livesTxt;
+    [SerializeField] protected AudioClip ScoreFx;
 
-    [SerializeField] AudioClip ScoreFx;
+    [SerializeField] private int cantidadAsteroides = 5;
+    [SerializeField] private float tiempoEspera = 2f;
+    [SerializeField] private float tiempoEsperaDificultad = 5f;
+   
+    [SerializeField] private bool pause = false;
+    [SerializeField] private int vidas;
+    [SerializeField] private int score;
+    [SerializeField] private int highScore;
+
     public static GameManager Instance { get; private set; }
+    public int _CantidadAsteroides { get => cantidadAsteroides; set => cantidadAsteroides = value; }
+    public float _TiempoEspera { get => tiempoEspera; set => tiempoEspera = value; }
+    public float _TiempoEsperaDificultad { get => tiempoEsperaDificultad; set => tiempoEsperaDificultad = value; }
+    public bool _Pause { get => pause; set => pause = value; }
+    public int _Vidas { get => vidas; set => vidas = value; }
+    public int _Score { get => score; set => score = value; }
+    public int _HighScore { get => highScore; set => highScore = value; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,16 +57,16 @@ public class GameManager : MonoBehaviour
 
     public void gamePause()
     {
-        pause = !pause;
+        _Pause = !_Pause;
 
-        if (pause) Time.timeScale = 0;
+        if (_Pause) Time.timeScale = 0;
         else Time.timeScale = 1;
     }
 
     public void gameOver(GameObject player)
     {
-        vidas--;
-        if (vidas <= 0)
+        _Vidas--;
+        if (_Vidas <= 0)
         {
             comprobarHighScore();
             Destroy(player);
@@ -76,7 +86,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            for (int i = 0; i < cantidadAsteroides; i++)
+            for (int i = 0; i < _CantidadAsteroides; i++)
             {
                 // Calcular posición aleatoria en un borde de la pantalla
                 Vector2 posicion = ObtenerPosicionAleatoriaEnBorde();
@@ -86,7 +96,7 @@ public class GameManager : MonoBehaviour
             }
 
             // Esperar antes de generar más asteroides
-            yield return new WaitForSeconds(tiempoEspera);
+            yield return new WaitForSeconds(_TiempoEspera);
         }
     }
 
@@ -114,9 +124,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator initGame()
     {
-        vidas = 3;
-        cantidadAsteroides = 5;
-        tiempoEspera = 2f;
+        _Vidas = 3;
+        _CantidadAsteroides = 5;
+        _TiempoEspera = 2f;
         StopCoroutine(GenerarAsteroidesInfinitos());
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
@@ -140,32 +150,32 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-       scoreTxt.text = score.ToString();
-       highScoreTxt.text = HighScore.ToString();
-       livesTxt.text = "lives: " + vidas.ToString();
+       scoreTxt.text = _Score.ToString();
+       highScoreTxt.text = _HighScore.ToString();
+       livesTxt.text = "lives: " + _Vidas.ToString();
     }
 
     public void sumarScore(int scorer) 
     {
-        score += scorer;
+        _Score += scorer;
     }
 
     public void comprobarHighScore()
     {
-        if (HighScore < score)
+        if (_HighScore < _Score)
         {
-            HighScore = score;
+            _HighScore = _Score;
             audioManager.Instance.playFX(ScoreFx);
         }
     }
 
     IEnumerator aumentarDificultad() 
     {
-        yield return new WaitForSeconds(tiempoEsperaDificultad);
-        cantidadAsteroides++;
-        if (tiempoEspera >= .1f)
+        yield return new WaitForSeconds(_TiempoEsperaDificultad);
+        _CantidadAsteroides++;
+        if (_TiempoEspera >= .1f)
         {
-            tiempoEspera -= .1f;
+            _TiempoEspera -= .1f;
         }
     }
 }

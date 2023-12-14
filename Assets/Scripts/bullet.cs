@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class bullet : MonoBehaviour
 {
-    public float velocidad = 10f;
-    public float damage = 10f; 
+    [SerializeField] private float velocidad = 10f;
+    [SerializeField] private float damage = 10f;
+
+    public float _Velocidad { get => velocidad; set => velocidad = value; }
+    public float _Damage { get => damage; set => damage = value; }
+
     void Update()
     {
-        transform.Translate(Vector2.up * velocidad * Time.deltaTime);
+        transform.Translate(Vector2.up * _Velocidad * Time.deltaTime);
 
     }
     private void OnBecameInvisible()

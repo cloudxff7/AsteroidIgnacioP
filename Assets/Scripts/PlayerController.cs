@@ -5,13 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
-    public float rotationSpeed = 180f;
-    [SerializeField] Rigidbody2D rb;
-    [SerializeField] PlayerInput playerInput;
-    [SerializeField]GameObject proyectilPrefab;
-    [SerializeField] AudioClip ShootClip;
-    [SerializeField] AudioClip lostClip;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private GameObject proyectilPrefab;
+    [SerializeField] private AudioClip ShootClip;
+    [SerializeField] private AudioClip lostClip;
+
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float rotationSpeed = 180f;
+
+    public float _Speed { get => speed; set => speed = value; }
+    public float _RotationSpeed { get => rotationSpeed; set => rotationSpeed = value; }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,8 +35,8 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 MovementInput = playerInput.actions["Move"].ReadValue<Vector2>();
 
-        rb.velocity = transform.up * MovementInput.y * speed;
-        float rotation = -MovementInput.x * rotationSpeed;
+        rb.velocity = transform.up * MovementInput.y * _Speed;
+        float rotation = -MovementInput.x * _RotationSpeed;
         rb.MoveRotation(rb.rotation + rotation);
     }
 
@@ -67,7 +72,7 @@ public class PlayerController : MonoBehaviour
         if (playerInput.actions["Shoot"].WasPressedThisFrame())
         {
             GameObject nuevoProyectil = Instantiate(proyectilPrefab, transform.position, transform.rotation);
-            nuevoProyectil.GetComponent<Rigidbody2D>().velocity = transform.up * nuevoProyectil.GetComponent<bullet>().velocidad;
+            nuevoProyectil.GetComponent<Rigidbody2D>().velocity = transform.up * nuevoProyectil.GetComponent<bullet>()._Velocidad;
             audioManager.Instance.playFX(ShootClip);
         }
     }

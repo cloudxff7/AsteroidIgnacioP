@@ -2,26 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class asteroid : MonoBehaviour
+public class asteroid : Enemy
 {
-    public float velocidadMinima = 2f;
-    public float velocidadMaxima = 5f;
-    public float tamañoMinimo = 1f;
-    public float tamañoMaximo = 3f;
-    [SerializeField]private float vida;
-    [SerializeField]private int puntaje;
-
     [SerializeField] AudioClip explosionClip;
     void Start()
     {
-        float tamaño = Random.Range(tamañoMinimo, tamañoMaximo);
+        float tamaño = Random.Range(_TamañoMinimo , _TamañoMaximo);
         transform.localScale = new Vector3(tamaño, tamaño, 1);
 
-        float velocidad = Random.Range(velocidadMinima, velocidadMaxima);
+        float velocidad = Random.Range(_VelocidadMinima, _VelocidadMaxima);
         GetComponent<Rigidbody2D>().velocity = Random.onUnitSphere * velocidad;
 
-        vida = Random.Range(tamaño, tamaño * 2);
-        puntaje = Mathf.RoundToInt(tamaño * 10);
+        _Vida = Random.Range(tamaño, tamaño * 2);
+        _Puntaje = Mathf.RoundToInt(tamaño * 10);
     }
     private void OnBecameInvisible()
     {
@@ -32,11 +25,11 @@ public class asteroid : MonoBehaviour
         if (collision.tag == "Bullet")
         {
             Destroy(collision.gameObject);
-            vida--;
-            if (vida < 0)
+            _Vida--;
+            if (_Vida < 0)
             {
                 audioManager.Instance.playFX(explosionClip);
-                GameManager.Instance.sumarScore(puntaje);
+                GameManager.Instance.sumarScore(_Puntaje);
                 Destroy(gameObject);
             }
         }
